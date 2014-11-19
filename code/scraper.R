@@ -20,7 +20,10 @@ source(paste0(onSw(), 'code/sidih.R'))
 runScraper <- function(test = F) {
   # Data collection
   ind_list = c(631)  # add the indicator codes here
-  fetchSidihIndicatorValues(ind_list)
+  indicators_data <- fetchSidihIndicatorValues(ind_list)
+  
+  # Writing output in database
+  writeTables(indicators_data, 'indicators_data', 'scraperwiki')
   
   # Storing the data (and running tests)
   if (test == T) cat('No tests yet.\n')
