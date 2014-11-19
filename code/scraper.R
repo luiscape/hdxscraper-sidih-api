@@ -7,7 +7,7 @@ library(rjson)
 
 # deploy function
 onSw <- function(a = T, d = '~/tool/') {
-	if (a == T) return(b)
+	if (a == T) return(d)
 	else return('')
 }
 
