@@ -5,8 +5,11 @@
 library(RCurl)
 library(rjson)
 
+# Configuration
+ind_list = c(631)  # add the indicator codes here
+
 # deploy function
-onSw <- function(a = T, d = '~/tool/') {
+onSw <- function(a = F, d = '~/tool/') {
 	if (a == T) return(d)
 	else return('')
 }
@@ -19,7 +22,6 @@ source(paste0(onSw(), 'code/sidih.R'))
 # wrapper for the scraper
 runScraper <- function(test = F) {
   # Data collection
-  ind_list = c(631)  # add the indicator codes here
   indicators_data <- fetchSidihIndicatorValues(ind_list)
   
   # Writing output in database

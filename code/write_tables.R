@@ -1,18 +1,17 @@
 ## Write tables in a db. ##
 library(sqldf)
 
-# create an append function for this table
-writeTables <- function(df = NULL,
-                        table_name = NULL,
-                        db = NULL,
+writeTable <- function(df = NULL, 
+                        table_name = NULL, 
+                        db = NULL, 
                         testing = FALSE) {
   # sanity check
   if (is.null(df) == TRUE) stop("Don't forget to provide a data.frame.")
   if(is.null(table_name) == TRUE) stop("Don't forget to provide a table name.")
   if(is.null(db) == TRUE) stop("Don't forget to provide a data base name.")
-
+  
   message('Storing data in a database.')
-
+  
   # creating db
   db_name <- paste0(db, ".sqlite")
   db <- dbConnect(SQLite(), dbname = db_name)

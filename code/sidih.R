@@ -25,11 +25,11 @@ fetchSidihData <- function(indicator_id = 631,
 
 # Fetch a list of indicators from SIDIH
 # TODO: fix error handler. 
-fetchSidihIndicatorMetadata <- function(indicator = NULL, all = F) {
+fetchSidihIndicatorMetadata <- function(indicator = NULL, all = F, verbose = FALSE) {
   
   # determining how many indicators to iterate  
   if (all == TRUE) {
-    total = 700  # Unknown number of indicators.
+    total = 700  # Arbitraty. Unknown number of indicators.
   }
   else total <- length(indicator)
   
@@ -37,50 +37,46 @@ fetchSidihIndicatorMetadata <- function(indicator = NULL, all = F) {
   pb <- txtProgressBar(min = 0, max = total, style = 3, char = '.')
   
   for (i in 1:total) {
-    r = 1
+    if (verbose) cat(paste("Fetching: ", indicator[i]))
+    retry = 1
     setTxtProgressBar(pb, i)
     
     tryCatch({
       doc = fetchSidihData(indicator[i])
     },
     error = function(e) {
-      message(paste(i, ': indicator code does not exist.'))
-      next
+      if (retry >= 3) {
+        message('Error fetching url. Trying again.')
+        i = i - 1
+        retry = retry + 1
+        next
+      }
+      message(paste(i, ': indicator code does not exist. Skipping.'))
     }
     )
-    
     
     # error handler function: tries 3 times per url / indicator
     # if all fail, it skips to the next indicator in the array
-    tryCatch({
-      it <- data.frame(
-        indicator_id = doc[[1]]$metadato$ID_DATO,
-        indicator_name = doc[[1]]$metadato$NOM_DATO,
-        indicator_source = doc[[1]]$metadato$NOM_CON,
-        maximum_disaggregation = doc[[1]]$metadato$DEFINICION_DATO,
-        last_update_date = doc[[1]]$metadato$DESAGREG_GEO,
-        number_of_datapoints = length(doc[[1]]$valores)
-      )
-      
-      # assembling data.frame
+    it <- data.frame(
+      indicator_id = doc[[1]]$metadato$ID_DATO,
+      indicator_name = doc[[1]]$metadato$NOM_DATO,
+      indicator_source = doc[[1]]$metadato$NOM_CON,
+      maximum_disaggregation = doc[[1]]$metadato$DESAGREG_GEO,
+      definition = doc[[1]]$metadato$DEFINICION_DATO,
+      last_update_date = doc[[1]]$metadato$ACTUALIZACION,
+      number_of_datapoints = length(doc[[1]]$valores)
+    )
+    
+    # assembling data.frame
+    if (length(doc[[1]]) == 3) {
       if (i == 1) out <- it
       else out <- rbind(out, it)
-      
-    },
-    
-    # If error occurs:
-    error = function() {
-      if (r >= 3) {
-        message('Error fetching url. Trying again.')
-        i = i - 1
-        r = r + 1
-      }
-      else {
-        message('Skipping.')
-        next
-      }
     }
-    )
+    else {
+      m = paste(indicator[i], "not found. Skipping.\n")
+      cat(m)
+      next
+    }
   }
   
   # returning output
