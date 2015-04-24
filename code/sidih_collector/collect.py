@@ -56,7 +56,7 @@ def Main(verbose=False):
     try:
       table_name = 'sidih_' + str(indicator)
       StoreRecords(data=data['valores'], table=table_name, schema='sidih_schema')
-      StoreRecords(data=data['valores'], table="all_data", schema='sidih_schema')
+      StoreRecords(data=data['valores'], table="sidih_all_data", schema='sidih_schema')
 
     except Exception as e:
       errors.append(indicator)
