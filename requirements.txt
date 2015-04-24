@@ -4,7 +4,6 @@ SQLAlchemy==1.0.1
 alembic==0.7.5.post2
 cffi==0.9.2
 ckanapi==3.4
-cryptography==0.8.2
 docopt==0.6.2
 enum34==1.0.4
 mock==1.0.1
