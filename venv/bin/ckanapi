@@ -1,9 +1,0 @@
-#!/Users/luis/Documents/Programming/HDXScrapers/hdxscraper-sidih-api/venv/bin/python
-# EASY-INSTALL-ENTRY-SCRIPT: 'ckanapi==3.4','console_scripts','ckanapi'
-__requires__ = 'ckanapi==3.4'
-import sys
-from pkg_resources import load_entry_point
-
-sys.exit(
-   load_entry_point('ckanapi==3.4', 'console_scripts', 'ckanapi')()
-)
