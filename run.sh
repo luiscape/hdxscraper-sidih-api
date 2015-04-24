@@ -1,4 +1,4 @@
 #!/bin/bash
 
-# opening custom R
-~/R/bin/Rscript ~/tool/code/scraper.R
+source venv/bin/activate
+python code/sidih_collector/collect.py
