@@ -4,6 +4,11 @@
 from termcolor import colored as color
 
 def item(i):
+  '''Selecting a prompt item to decorate stdout.'''
+
+  #
+  # Dictionary of prompt items.
+  #
   dictionary = {
     'prompt_bullet': color(" →", "blue", attrs=['bold']),
     'prompt_error':  color(" ERROR:", "red", attrs=['bold']),
