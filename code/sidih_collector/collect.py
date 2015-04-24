@@ -54,7 +54,9 @@ def Main(verbose=False):
     #
     errors = []
     try:
-      StoreRecords(data=data['valores'], table='sidih_values')
+      table_name = 'sidih_' + str(indicator)
+      StoreRecords(data=data['valores'], table=table_name, schema='sidih_schema')
+      StoreRecords(data=data['valores'], table="all_data", schema='sidih_schema')
 
     except Exception as e:
       errors.append(indicator)
@@ -73,4 +75,13 @@ def Main(verbose=False):
 
 
 if __name__ == '__main__':
-  Main()
+
+  try:
+      Main()
+      print "SW Status: Everything seems to be just fine."
+      scraperwiki.status('ok')
+
+  except Exception as e:
+      print e
+      scraperwiki.status('error', 'Error collecting data.')
+      os.system("mail -s 'SIDIH API: Failed collecting data.' luiscape@gmail.com")

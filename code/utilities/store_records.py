@@ -12,17 +12,15 @@ sys.path.append(dir)
 import scraperwiki
 from utilities import prompt_format as I
 
-def StoreRecords(data, table, verbose = True):
+def StoreRecords(data, schema, table, verbose = True):
   '''Store records in a ScraperWiki database.'''
 
-  # Available schemas.
-  # Still in development.
   schemas = {
-    'sidih_values': ["ID_VALDA", "FIN_VALDA", "INI_VALDA", "ID_DATO", "ID_UNIDAD", "ID_MUN", "VAL_VALDA", "ID_DEPTO"]
+    'sidih_schema': ["ID_VALDA", "FIN_VALDA", "INI_VALDA", "ID_DATO", "ID_UNIDAD", "ID_MUN", "VAL_VALDA", "ID_DEPTO"]
   }
 
   try:
-    schema = schemas[table]
+    schema = schemas[schema]
 
   except Exception as e:
 
